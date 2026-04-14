@@ -1,0 +1,148 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Kos;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
+
+class KosSeeder extends Seeder
+{
+    public function run(): void
+    {
+        $data = [
+            // ─── MANADO – KEC. BUNAKEN, KEL. PANDU ───
+            [
+                'nama'            => 'Daren Kost',
+                'deskripsi'       => 'Kos nyaman di Kelurahan Pandu dengan akses bebas. Fasilitas kamar sangat lengkap siap huni.',
+                'jenis'           => 'campur',
+                'tipe_kamar'      => 'kos',
+                'harga_per_bulan' => 700000,
+                'harga_per_tahun' => 8400000,
+                'luas_kamar'      => 12,
+                'alamat'          => 'Jl. Pandu 2 , Kel. Pandu',
+                'kota'            => 'Manado',
+                'provinsi'        => 'Sulawesi Utara',
+                'kecamatan'       => 'Bunaken',
+                'kelurahan'       => 'Pandu',
+                'latitude'        => 1.5583758926241005, 
+                'longitude'       => 124.87038759269045,
+                'fasilitas_kamar' => ['WC Dalam', 'WiFi', 'Meja', 'Kursi', 'Lemari', 'Wastafel'],
+                'fasilitas_bersama' => ['Lahan Parkir Luas'],
+                'peraturan'       => 'Bebas, tidak ada jam malam.',
+                'nama_pemilik'    => 'Pemilik Daren Kost',
+                'telepon_pemilik' => '081100000001',
+                'rating'          => 4.5,
+                'total_review'    => 10,
+                'foto_utama'      => 'utama.jpg',
+                'foto_tambahan'   => ['kamar','fasilitas','dapur','kamar_mandi'],
+            ],
+            [
+                'nama'            => 'Palm Tree Kost',
+                'deskripsi'       => 'Kos asri dengan taman hijau yang sejuk di daerah Pandu. Kamar sudah dilengkapi AC untuk kenyamanan Anda.',
+                'jenis'           => 'campur',
+                'tipe_kamar'      => 'kos',
+                'harga_per_bulan' => 850000,
+                'harga_per_tahun' => 10000000,
+                'luas_kamar'      => 15,
+                'alamat'          => 'Jl Panndu 2 , Kel. Pandu',
+                'kota'            => 'Manado',
+                'provinsi'        => 'Sulawesi Utara',
+                'kecamatan'       => 'Bunaken',
+                'kelurahan'       => 'Pandu',
+                'latitude'        => 1.5545809154695354, 
+                'longitude'       => 124.86718719020321,
+                'fasilitas_kamar' => ['AC', 'Kasur', 'Bantal'],
+                'fasilitas_bersama' => ['Lahan Parkir Luas', 'Taman', 'Dapur Umum'],
+                'peraturan'       => 'Menjaga kebersihan taman dan dapur umum.',
+                'nama_pemilik'    => 'Pemilik Palm Tree',
+                'telepon_pemilik' => '081200000002',
+                'rating'          => 4.8,
+                'total_review'    => 24,
+                'foto_utama'      => 'utama.jpg',
+                'foto_tambahan'   => ['kamar','fasilitas','dapur','kamar_mandi'],
+            ],
+            [
+                'nama'            => 'Hallo Dek Kost',
+                'deskripsi'       => 'Kost strategis dan praktis dengan fasilitas esensial yang lengkap. Lingkungan tenang dan aman.',
+                'jenis'           => 'campur',
+                'tipe_kamar'      => 'kos',
+                'harga_per_bulan' => 800000,
+                'harga_per_tahun' => 9500000,
+                'luas_kamar'      => 12,
+                'alamat'          => 'Jl. Pandu 2 , Kel. Pandu',
+                'kota'            => 'Manado',
+                'provinsi'        => 'Sulawesi Utara',
+                'kecamatan'       => 'Bunaken',
+                'kelurahan'       => 'Pandu',
+                'latitude'        => 1.552107338948268, 
+                'longitude'       => 124.86662600780342,
+                'fasilitas_kamar' => ['WC Dalam', 'Kasur', 'Lemari'],
+                'fasilitas_bersama' => ['Area Parkir'],
+                'peraturan'       => 'Tamu maksimal berkunjung hingga pukul 22.00.',
+                'nama_pemilik'    => 'Pemilik Hallo Dek',
+                'telepon_pemilik' => '081200000003',
+                'rating'          => 4.3,
+                'total_review'    => 8,
+                'foto_utama'      => 'utama.jpg',
+                'foto_tambahan'   => ['kamar','fasilitas','dapur','kamar_mandi'],
+            ],
+            [
+                'nama'            => 'Kost Berkat',
+                'deskripsi'       => 'Kost ekonomis dengan fasilitas bersama yang sangat memadai, termasuk kulkas dan dapur umum untuk menghemat pengeluaran.',
+                'jenis'           => 'campur',
+                'tipe_kamar'      => 'kos',
+                'harga_per_bulan' => 600000,
+                'harga_per_tahun' => 7000000,
+                'luas_kamar'      => 10,
+                'alamat'          => 'Jl Pandu 2 , Kel. Pandu',
+                'kota'            => 'Manado',
+                'provinsi'        => 'Sulawesi Utara',
+                'kecamatan'       => 'Bunaken',
+                'kelurahan'       => 'Pandu',
+                'latitude'        => 1.5481390779662987, 
+                'longitude'       => 124.86308129453192,
+                'fasilitas_kamar' => ['Kasur', 'Toilet'],
+                'fasilitas_bersama' => ['Lahan Parkir Luar', 'Dapur Umum', 'Kulkas'],
+                'peraturan'       => 'Wajib membersihkan dapur setelah digunakan.',
+                'nama_pemilik'    => 'Pemilik Kost Berkat',
+                'telepon_pemilik' => '081200000004',
+                'rating'          => 4.2,
+                'total_review'    => 15,
+                'foto_utama'      => 'utama.jpg',
+                'foto_tambahan'   => ['kamar','fasilitas','dapur','kamar_mandi'],
+            ],
+            [
+                'nama'            => 'Opa Kost',
+                'deskripsi'       => 'Kost murah meriah dekat dengan kantin. Harga sudah termasuk listrik bulanan. Memiliki area jemuran yang luas.',
+                'jenis'           => 'campur',
+                'tipe_kamar'      => 'kos',
+                'harga_per_bulan' => 600000,
+                'harga_per_tahun' => 7000000,
+                'luas_kamar'      => 12,
+                'alamat'          => 'Jl. Pandu 2 , Kel. Pandu',
+                'kota'            => 'Manado',
+                'provinsi'        => 'Sulawesi Utara',
+                'kecamatan'       => 'Bunaken',
+                'kelurahan'       => 'Pandu',
+                'latitude'        => 1.5493599025518312, 
+                'longitude'       => 124.86489379740347,
+                'fasilitas_kamar' => ['Kasur', 'Toilet', 'Listrik Termasuk'],
+                'fasilitas_bersama' => ['Tempat Parkir Luas', 'Tempat Jemuran', 'Dapur Umum', 'Kantin Terdekat'],
+                'peraturan'       => 'Menjaga ketertiban dan keamanan kos bersama.',
+                'nama_pemilik'    => 'Opa',
+                'telepon_pemilik' => '081200000005',
+                'rating'          => 4.6,
+                'total_review'    => 30,
+                'foto_utama'      => 'utama.jpg',
+                'foto_tambahan'   => ['kamar','fasilitas','dapur','kamar_mandi'],
+            ],
+        ];
+
+        foreach ($data as $item) {
+            $item['slug']         = Str::slug($item['nama']) . '-' . Str::random(6);
+            $item['is_available'] = true;
+            Kos::create($item);
+        }
+    }
+}
