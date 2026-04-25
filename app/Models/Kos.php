@@ -47,6 +47,16 @@ class Kos extends Model
     {
         return 'Rp ' . number_format($this->harga_per_bulan, 0, ',', '.');
     }
+
+    public function getHargaMulaiDariAttribute(): string
+    {
+        // Jika ada tipe kamar, ambil harga terkecil. Jika tidak, pakai harga_per_bulan.
+        if ($this->relationLoaded('tipeKamar') && $this->tipeKamar->isNotEmpty()) {
+            $min = $this->tipeKamar->min('harga_per_bulan');
+            return 'Rp ' . number_format($min, 0, ',', '.');
+        }
+        return 'Rp ' . number_format($this->harga_per_bulan, 0, ',', '.');
+    }
     public function getFotoUtamaUrlAttribute(): string
     {
         return $this->foto_utama
@@ -60,7 +70,7 @@ class Kos extends Model
 
     public function user()        { return $this->belongsTo(User::class); }
     public function favoritedBy() { return $this->belongsToMany(User::class, 'favorites')->withTimestamps(); }
-    
+    public function tipeKamar()   { return $this->hasMany(KosTipeKamar::class)->orderBy('urutan')->orderBy('harga_per_bulan'); }
 
     public function reviews()
     {

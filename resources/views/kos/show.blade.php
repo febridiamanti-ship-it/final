@@ -237,14 +237,79 @@
 
         {{-- Konten Kanan (Card Melayang) --}}
         <div class="lg:col-span-1">
-            <div class="sticky top-28 bg-white border border-slate-200 rounded-2xl p-6 shadow-float">
-                <div class="mb-6">
-                    <span class="text-2xl font-extrabold text-slate-900">{{ $kos->harga_format }}</span>
-                    <span class="text-slate-500 font-medium"> / bulan</span>
+            <div class="sticky top-28 bg-white border border-slate-200 rounded-2xl shadow-float overflow-hidden">
+
+                {{-- Header Harga --}}
+                <div class="p-6 border-b border-slate-100">
+                    @if($kos->tipeKamar->isNotEmpty())
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Harga mulai dari</p>
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-2xl font-extrabold text-slate-900">{{ $kos->harga_mulai_dari }}</span>
+                            <span class="text-slate-400 text-sm font-medium">/bulan</span>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-1">{{ $kos->tipeKamar->count() }} pilihan tipe kamar tersedia</p>
+                    @else
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Harga</p>
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-2xl font-extrabold text-slate-900">{{ $kos->harga_format }}</span>
+                            <span class="text-slate-400 text-sm font-medium">/bulan</span>
+                        </div>
+                    @endif
                 </div>
 
-                {{-- Informasi Singkat --}}
-                <div class="space-y-3 mb-6 p-4 border border-slate-100 rounded-xl bg-slate-50">
+                {{-- Tipe Kamar List --}}
+                @if($kos->tipeKamar->isNotEmpty())
+                <div class="p-4 space-y-3 max-h-80 overflow-y-auto">
+                    @foreach($kos->tipeKamar as $tipe)
+                    <div class="border border-slate-100 rounded-xl p-4 hover:border-brand-200 hover:bg-brand-50/30 transition-all cursor-default group">
+                        <div class="flex items-start justify-between gap-2 mb-2">
+                            <h4 class="font-bold text-slate-900 text-sm leading-snug">{{ $tipe->nama_tipe }}</h4>
+                            <div class="text-right shrink-0">
+                                <p class="font-extrabold text-brand-600 text-sm">{{ $tipe->harga_format }}</p>
+                                <p class="text-slate-400 text-[10px]">/bulan</p>
+                            </div>
+                        </div>
+
+                        {{-- Info row --}}
+                        <div class="flex items-center gap-3 text-[10px] text-slate-500 mb-2">
+                            @if($tipe->luas_kamar)
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
+                                    {{ $tipe->luas_kamar }} m²
+                                </span>
+                            @endif
+                            @if($tipe->kapasitas > 0)
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                                    {{ $tipe->kapasitas }} kamar
+                                </span>
+                            @endif
+                            @if($tipe->harga_per_tahun)
+                                <span class="flex items-center gap-1 text-emerald-600 font-semibold">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
+                                    {{ $tipe->harga_tahunan_format }}/thn
+                                </span>
+                            @endif
+                        </div>
+
+                        {{-- Fasilitas Tipe --}}
+                        @if(!empty($tipe->fasilitas) && count($tipe->fasilitas) > 0)
+                        <div class="flex flex-wrap gap-1 mt-2">
+                            @foreach($tipe->fasilitas as $fas)
+                                <span class="text-[9px] font-bold text-brand-700 bg-brand-50 border border-brand-100 px-2 py-0.5 rounded-md">{{ $fas }}</span>
+                            @endforeach
+                        </div>
+                        @endif
+
+                        @if($tipe->keterangan)
+                        <p class="text-[10px] text-slate-400 mt-2 leading-relaxed">{{ $tipe->keterangan }}</p>
+                        @endif
+                    </div>
+                    @endforeach
+                </div>
+                @else
+                {{-- Fallback: Informasi Singkat --}}
+                <div class="space-y-3 m-4 p-4 border border-slate-100 rounded-xl bg-slate-50">
                     <div class="flex justify-between text-sm">
                         <span class="text-slate-500">Tipe Kamar</span>
                         <span class="font-semibold text-slate-900">{{ ucfirst($kos->tipe_kamar) }}</span>
@@ -258,19 +323,22 @@
                         @endif
                     </div>
                 </div>
+                @endif
 
-                {{-- Tombol Hubungi via WhatsApp --}}
-                <a href="https://wa.me/{{ $kos->pemilik?->telepon ?? $kos->telepon_pemilik }}?text=Halo,%20saya%20tertarik%20dengan%20kos%20{{ urlencode($kos->nama) }}" 
-                   target="_blank"
-                   class="w-full flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 rounded-xl transition-colors shadow-md shadow-brand-500/30">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.183-.573c.978.582 1.994.922 3.141.922 3.18 0 5.766-2.586 5.768-5.766 0-3.181-2.586-5.769-5.766-5.769zm3.22 8.271c-.177.493-.902.928-1.292.971-.352.039-.814.155-2.612-.559-2.16-1.144-3.535-3.353-3.642-3.497-.107-.144-.868-1.155-.868-2.203 0-1.047.545-1.565.735-1.772.189-.206.411-.259.549-.259.138 0 .275.004.389.009.123.007.288-.046.442.327.164.402.562 1.375.612 1.474.05.099.083.215.016.349-.066.134-.101.217-.201.334-.099.117-.21.258-.298.339-.098.09-.204.189-.089.387.115.198.513.845 1.096 1.369.754.675 1.391.882 1.59.982.199.1.316.084.432-.047.115-.133.498-.58.632-.78.133-.198.267-.165.449-.097.182.069 1.151.543 1.348.641.198.098.33.147.379.229.049.082.049.475-.128.968z"/></svg>
-                    Chat Pemilik via WhatsApp
-                </a>
+                {{-- CTA Buttons --}}
+                <div class="p-4 pt-0 space-y-2">
+                    <a href="https://wa.me/{{ $kos->pemilik?->telepon ?? $kos->telepon_pemilik }}?text=Halo,%20saya%20tertarik%20dengan%20kos%20{{ urlencode($kos->nama) }}"
+                       target="_blank"
+                       class="w-full flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 rounded-xl transition-colors shadow-md shadow-brand-500/30">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.183-.573c.978.582 1.994.922 3.141.922 3.18 0 5.766-2.586 5.768-5.766 0-3.181-2.586-5.769-5.766-5.769zm3.22 8.271c-.177.493-.902.928-1.292.971-.352.039-.814.155-2.612-.559-2.16-1.144-3.535-3.353-3.642-3.497-.107-.144-.868-1.155-.868-2.203 0-1.047.545-1.565.735-1.772.189-.206.411-.259.549-.259.138 0 .275.004.389.009.123.007.288-.046.442.327.164.402.562 1.375.612 1.474.05.099.083.215.016.349-.066.134-.101.217-.201.334-.099.117-.21.258-.298.339-.098.09-.204.189-.089.387.115.198.513.845 1.096 1.369.754.675 1.391.882 1.59.982.199.1.316.084.432-.047.115-.133.498-.58.632-.78.133-.198.267-.165.449-.097.182.069 1.151.543 1.348.641.198.098.33.147.379.229.049.082.049.475-.128.968z"/></svg>
+                        Chat Pemilik via WhatsApp
+                    </a>
 
-                <button class="w-full mt-3 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
-                    Simpan ke Favorit
-                </button>
+                    <button class="w-full bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                        Simpan ke Favorit
+                    </button>
+                </div>
             </div>
         </div>
 

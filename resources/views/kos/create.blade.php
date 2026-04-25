@@ -86,23 +86,130 @@
                                class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:bg-white focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500">
                     </div>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 border-t border-slate-100 pt-6 mt-6">
-                    <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-2">Harga / Bulan (Rp) <span class="text-red-500">*</span></label>
-                        <div class="relative">
-                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-medium text-sm">Rp</span>
-                            <input type="number" name="harga_per_bulan" required placeholder="1000000"
-                                   class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-12 pr-4 py-3 text-sm text-slate-900 focus:outline-none focus:bg-white focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500">
+                {{-- ── Harga & Tipe Kamar (Repeater) ── --}}
+                <div class="border-t border-slate-100 pt-6 mt-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-sm font-bold text-slate-800">Tipe & Harga Kamar <span class="text-red-500">*</span></h3>
+                            <p class="text-xs text-slate-500 mt-0.5">Tambah beberapa tipe kamar jika kos Anda memiliki pilihan harga yang berbeda.</p>
                         </div>
+                        <button type="button" @click="addTipe()"
+                                class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-600 bg-brand-50 hover:bg-brand-100 px-3.5 py-2 rounded-xl transition-all border border-brand-100">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                            Tambah Tipe
+                        </button>
                     </div>
-                    <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-2">Harga / Tahun (Rp)</label>
-                        <div class="relative">
-                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-medium text-sm">Rp</span>
-                            <input type="number" name="harga_per_tahun" placeholder="10000000"
-                                   class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-12 pr-4 py-3 text-sm text-slate-900 focus:outline-none focus:bg-white focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500">
-                        </div>
+
+                    <div class="space-y-4">
+                        <template x-for="(tipe, index) in tipeKamarList" :key="index">
+                            <div class="relative bg-slate-50 border border-slate-200 rounded-2xl p-5 group">
+                                {{-- Badge nomor --}}
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-700 bg-brand-100 px-3 py-1 rounded-full">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                                        Tipe <span x-text="index + 1"></span>
+                                    </span>
+                                    <button type="button" @click="removeTipe(index)"
+                                            x-show="tipeKamarList.length > 1"
+                                            class="w-7 h-7 bg-rose-50 hover:bg-rose-100 text-rose-400 hover:text-rose-600 rounded-lg flex items-center justify-center transition-colors">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                    </button>
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    {{-- Nama Tipe --}}
+                                    <div class="sm:col-span-2">
+                                        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Nama Tipe Kamar <span class="text-red-500">*</span></label>
+                                        <input type="text"
+                                               :name="'tipe_kamar_list[' + index + '][nama_tipe]'"
+                                               x-model="tipe.nama_tipe"
+                                               placeholder="Misal: Kamar Standar / Kamar AC / Suite"
+                                               class="w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 transition-all">
+                                    </div>
+
+                                    {{-- Harga / Bulan --}}
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Harga / Bulan <span class="text-red-500">*</span></label>
+                                        <div class="relative">
+                                            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-medium">Rp</span>
+                                            <input type="number"
+                                                   :name="'tipe_kamar_list[' + index + '][harga_per_bulan]'"
+                                                   x-model="tipe.harga_per_bulan"
+                                                   placeholder="1000000"
+                                                   class="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 transition-all">
+                                        </div>
+                                    </div>
+
+                                    {{-- Harga / Tahun --}}
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Harga / Tahun <span class="text-slate-400 font-normal">(opsional)</span></label>
+                                        <div class="relative">
+                                            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-medium">Rp</span>
+                                            <input type="number"
+                                                   :name="'tipe_kamar_list[' + index + '][harga_per_tahun]'"
+                                                   x-model="tipe.harga_per_tahun"
+                                                   placeholder="10000000"
+                                                   class="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 transition-all">
+                                        </div>
+                                    </div>
+
+                                    {{-- Luas Kamar --}}
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Luas (m²)</label>
+                                        <input type="number"
+                                               :name="'tipe_kamar_list[' + index + '][luas_kamar]'"
+                                               x-model="tipe.luas_kamar"
+                                               placeholder="12"
+                                               class="w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 transition-all">
+                                    </div>
+
+                                    {{-- Kapasitas --}}
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Jumlah Kamar Tersedia</label>
+                                        <input type="number" min="0"
+                                               :name="'tipe_kamar_list[' + index + '][kapasitas]'"
+                                               x-model="tipe.kapasitas"
+                                               placeholder="1"
+                                               class="w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 transition-all">
+                                    </div>
+
+                                    {{-- Fasilitas Khusus Tipe Ini --}}
+                                    <div class="sm:col-span-2">
+                                        <label class="block text-xs font-semibold text-slate-600 mb-2">Fasilitas Khusus Tipe Ini</label>
+                                        <div class="flex flex-wrap gap-2">
+                                            <template x-for="fas in ['AC','Kasur','Lemari','Kamar Mandi Dalam','WiFi','TV','Kulkas','Water Heater']" :key="fas">
+                                                <label class="flex items-center gap-2 text-xs font-medium text-slate-600 bg-white border border-slate-200 px-3 py-1.5 rounded-xl cursor-pointer hover:border-brand-400 hover:bg-brand-50 transition-all"
+                                                       :class="tipe.fasilitas && tipe.fasilitas.includes(fas) ? 'border-brand-500 bg-brand-50 text-brand-700' : ''">
+                                                    <input type="checkbox"
+                                                           :name="'tipe_kamar_list[' + index + '][fasilitas][]'"
+                                                           :value="fas"
+                                                           @change="toggleFasilitas(tipe, fas)"
+                                                           :checked="tipe.fasilitas && tipe.fasilitas.includes(fas)"
+                                                           class="hidden">
+                                                    <span x-text="fas"></span>
+                                                </label>
+                                            </template>
+                                        </div>
+                                    </div>
+
+                                    {{-- Keterangan --}}
+                                    <div class="sm:col-span-2">
+                                        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Keterangan <span class="text-slate-400 font-normal">(opsional)</span></label>
+                                        <input type="text"
+                                               :name="'tipe_kamar_list[' + index + '][keterangan]'"
+                                               x-model="tipe.keterangan"
+                                               placeholder="Misal: Cocok untuk 1 orang, sudah termasuk listrik"
+                                               class="w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 transition-all">
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
                     </div>
+
+                    {{-- Info jika tidak ada tipe --}}
+                    <p class="text-xs text-slate-400 text-center mt-3" x-show="tipeKamarList.length === 0">
+                        Klik tombol "Tambah Tipe" untuk menambahkan pilihan harga kamar.
+                    </p>
                 </div>
             </div>
 
@@ -272,33 +379,60 @@ function createKosForm() {
         pickMap: null,
         marker: null,
 
-        nextStep() { if(this.currentStep<4) this.currentStep++; if(this.currentStep===2) this.$nextTick(()=>this.initPickMap()); },
-        prevStep() { if(this.currentStep>1) this.currentStep--; },
+        // Tipe Kamar Repeater
+        tipeKamarList: [
+            { nama_tipe: '', harga_per_bulan: '', harga_per_tahun: '', luas_kamar: '', kapasitas: 1, fasilitas: [], keterangan: '' }
+        ],
+
+        addTipe() {
+            this.tipeKamarList.push({ nama_tipe: '', harga_per_bulan: '', harga_per_tahun: '', luas_kamar: '', kapasitas: 1, fasilitas: [], keterangan: '' });
+        },
+
+        removeTipe(index) {
+            if (this.tipeKamarList.length > 1) {
+                this.tipeKamarList.splice(index, 1);
+            }
+        },
+
+        toggleFasilitas(tipe, fas) {
+            if (!tipe.fasilitas) tipe.fasilitas = [];
+            const idx = tipe.fasilitas.indexOf(fas);
+            if (idx === -1) {
+                tipe.fasilitas.push(fas);
+            } else {
+                tipe.fasilitas.splice(idx, 1);
+            }
+        },
+
+        nextStep() {
+            if (this.currentStep < 4) this.currentStep++;
+            if (this.currentStep === 2) this.$nextTick(() => this.initPickMap());
+        },
+        prevStep() { if (this.currentStep > 1) this.currentStep--; },
 
         handleMainPhoto(e) {
-            const f=e.target.files[0];
-            if(f){const r=new FileReader();r.onload=(ev)=>this.previewMain=ev.target.result;r.readAsDataURL(f);}
+            const f = e.target.files[0];
+            if (f) { const r = new FileReader(); r.onload = (ev) => this.previewMain = ev.target.result; r.readAsDataURL(f); }
         },
         handleDrop(e) {
-            const f=e.dataTransfer.files[0];
-            if(f&&f.type.startsWith('image/')){
-                const dt=new DataTransfer();dt.items.add(f);document.getElementById('foto_utama_input').files=dt.files;
-                const r=new FileReader();r.onload=(ev)=>this.previewMain=ev.target.result;r.readAsDataURL(f);
+            const f = e.dataTransfer.files[0];
+            if (f && f.type.startsWith('image/')) {
+                const dt = new DataTransfer(); dt.items.add(f); document.getElementById('foto_utama_input').files = dt.files;
+                const r = new FileReader(); r.onload = (ev) => this.previewMain = ev.target.result; r.readAsDataURL(f);
             }
         },
 
         initPickMap() {
-            if(this.pickMap) return;
-            // Default ke Manado
+            if (this.pickMap) return;
             this.pickMap = L.map('pickMap').setView([1.4956, 124.8443], 13);
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'&copy; OpenStreetMap'}).addTo(this.pickMap);
-            this.pickMap.on('click',(e)=>{
-                const {lat,lng}=e.latlng;
-                document.getElementById('lat_input').value=lat.toFixed(7);
-                document.getElementById('lng_input').value=lng.toFixed(7);
-                document.getElementById('coordDisplay').textContent=`📍 Titik tersimpan: ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
-                if(this.marker) this.marker.remove();
-                this.marker=L.marker([lat,lng]).addTo(this.pickMap);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; OpenStreetMap' }).addTo(this.pickMap);
+            this.pickMap.on('click', (e) => {
+                const { lat, lng } = e.latlng;
+                document.getElementById('lat_input').value = lat.toFixed(7);
+                document.getElementById('lng_input').value = lng.toFixed(7);
+                document.getElementById('coordDisplay').textContent = `📍 Titik tersimpan: ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+                if (this.marker) this.marker.remove();
+                this.marker = L.marker([lat, lng]).addTo(this.pickMap);
             });
             setTimeout(() => { this.pickMap.invalidateSize(); }, 300);
         }

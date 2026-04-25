@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kos;
+use App\Models\KosTipeKamar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -47,19 +48,38 @@ class KosController extends Controller
         };
 
         $kosList   = $query->paginate(12)->withQueryString();
-        $kosForMap = Kos::available()
-            ->search($request->q)
-            ->jenis($request->jenis)
-            ->kota($request->kota)
-            ->hargaMax($request->harga_max)
-            ->select('id','nama','latitude','longitude','harga_per_bulan','jenis','foto_utama')
-            ->get();
 
-        return view('kos.index', compact('kosList', 'kosForMap', 'request'));
+        // Pre-process map data as JSON to avoid Blade parser issues with array syntax
+        $mapData = json_encode(
+            Kos::available()
+                ->search($request->q)
+                ->jenis($request->jenis)
+                ->kota($request->kota)
+                ->hargaMax($request->harga_max)
+                ->whereNotNull('latitude')
+                ->whereNotNull('longitude')
+                ->select('id','nama','latitude','longitude','harga_per_bulan','jenis','is_available','slug')
+                ->get()
+                ->map(fn($k) => [
+                    'id'        => $k->id,
+                    'nama'      => $k->nama,
+                    'lat'       => (float)$k->latitude,
+                    'lng'       => (float)$k->longitude,
+                    'harga'     => $k->harga_format,
+                    'jenis'     => $k->jenis,
+                    'url'       => route('kos.show', $k),
+                    'available' => (bool)$k->is_available,
+                ])
+                ->values()
+        );
+
+        return view('kos.index', compact('kosList', 'mapData'));
     }
 
     public function show(Kos $kos)
     {
+        $kos->load('tipeKamar', 'reviews.user');
+
         $kosSekitar = Kos::available()
             ->where('id', '!=', $kos->id)
             ->where('kota', $kos->kota)
@@ -131,6 +151,10 @@ class KosController extends Controller
         }
 
         $kos = Kos::create($v);
+
+        // ── Simpan Tipe Kamar ──────────────────────────────────────────────────
+        $this->saveTipeKamar($kos, $request->input('tipe_kamar_list', []));
+
         return redirect()->route('kos.show', $kos)->with('success', 'Kos berhasil ditambahkan!');
     }
 
@@ -201,6 +225,10 @@ class KosController extends Controller
         }
 
         $kos->update($v);
+
+        // ── Sync Tipe Kamar ────────────────────────────────────────────────────
+        $this->saveTipeKamar($kos, $request->input('tipe_kamar_list', []));
+
         return redirect()->route('kos.show', $kos)->with('success', 'Kos berhasil diperbarui!');
     }
 
@@ -242,6 +270,34 @@ class KosController extends Controller
         
         if ($kos->user_id && $kos->user_id !== $user->id) {
             abort(403, 'Anda tidak memiliki akses untuk mengelola kos ini.');
+        }
+    }
+
+    // ─── Helper: Simpan/Sync Tipe Kamar ──────────────────────────────────────
+    private function saveTipeKamar(Kos $kos, array $tipeList): void
+    {
+        // Hapus semua tipe kamar lama, lalu buat ulang (simple sync)
+        $kos->tipeKamar()->delete();
+
+        foreach ($tipeList as $urutan => $item) {
+            // Skip baris kosong
+            if (empty($item['nama_tipe']) || empty($item['harga_per_bulan'])) continue;
+
+            $fasilitas = isset($item['fasilitas']) && is_array($item['fasilitas'])
+                ? array_values(array_filter($item['fasilitas']))
+                : [];
+
+            KosTipeKamar::create([
+                'kos_id'          => $kos->id,
+                'nama_tipe'       => $item['nama_tipe'],
+                'harga_per_bulan' => (int) str_replace(['.', ','], '', $item['harga_per_bulan']),
+                'harga_per_tahun' => !empty($item['harga_per_tahun']) ? (int) str_replace(['.', ','], '', $item['harga_per_tahun']) : null,
+                'luas_kamar'      => !empty($item['luas_kamar']) ? (int)$item['luas_kamar'] : null,
+                'fasilitas'       => $fasilitas,
+                'kapasitas'       => !empty($item['kapasitas']) ? (int)$item['kapasitas'] : 1,
+                'keterangan'      => $item['keterangan'] ?? null,
+                'urutan'          => $urutan,
+            ]);
         }
     }
 }

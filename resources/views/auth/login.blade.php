@@ -2,20 +2,23 @@
 @section('title', 'Masuk – BaKos')
 
 @section('content')
-<div class="min-h-screen bg-slate-50 flex items-center justify-center px-4 py-12">
-    <div class="w-full max-w-md">
+<div class="relative min-h-screen flex items-center justify-center px-4 py-12 bg-cover bg-center" style="background-image: url('{{ asset('images/hero-bg.png') }}');">
+    {{-- Overlay --}}
+    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm pointer-events-none"></div>
+
+    <div class="relative z-10 w-full max-w-md">
 
         {{-- Logo Header --}}
         <div class="text-center mb-8">
             <a href="{{ route('home') }}" class="inline-flex items-center gap-3 group">
-                <div class="w-12 h-12 bg-slate-900 rounded-xl flex items-center justify-center transition-transform group-hover:scale-105 shadow-md">
+                <div class="w-12 h-12 bg-brand-500 rounded-xl flex items-center justify-center transition-transform group-hover:scale-105 shadow-md">
                     <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                     </svg>
                 </div>
             </a>
-            <h1 class="text-2xl font-bold text-slate-900 mt-6 tracking-tight">Selamat Datang Kembali</h1>
-            <p class="text-slate-500 text-sm mt-1">Masuk untuk mengelola kos atau melihat favoritmu.</p>
+            <h1 class="text-2xl font-bold text-white mt-6 tracking-tight drop-shadow-md">Selamat Datang Kembali</h1>
+            <p class="text-slate-200 text-sm mt-1 drop-shadow-md">Masuk untuk mengelola kos atau melihat favoritmu.</p>
         </div>
 
         {{-- Card Form --}}
@@ -69,9 +72,9 @@
             </form>
         </div>
 
-        <p class="text-center text-sm text-slate-500 mt-8">
+        <p class="text-center text-sm text-slate-200 mt-8 drop-shadow-md">
             Belum punya akun?
-            <a href="{{ route('register') }}" class="text-brand-600 font-bold hover:text-brand-700 hover:underline transition-colors">Daftar sekarang</a>
+            <a href="{{ route('register') }}" class="text-brand-400 font-bold hover:text-brand-300 hover:underline transition-colors">Daftar sekarang</a>
         </p>
     </div>
 </div>

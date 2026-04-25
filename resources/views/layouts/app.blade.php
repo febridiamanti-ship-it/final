@@ -388,11 +388,12 @@
                            class="btn-press text-sm font-bold text-slate-600 hover:text-slate-900 px-4 py-2.5 rounded-xl hover:bg-slate-50 transition-all duration-200">
                             Masuk
                         </a>
+                        {{-- Prominent Pasang Kos CTA for guests --}}
                         <a href="{{ route('register') }}"
-                           class="btn-press group relative bg-gradient-to-r from-slate-800 to-slate-900 text-white text-sm font-bold px-6 py-2.5 rounded-xl shadow-md hover:shadow-lg hover:shadow-slate-300/30 transition-all duration-300 overflow-hidden">
-                            {{-- Shimmer effect --}}
-                            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                            <span class="relative">Daftar Gratis</span>
+                           class="btn-press group relative inline-flex items-center gap-2 bg-gradient-to-r from-brand-500 to-brand-600 text-white text-sm font-bold px-5 py-2.5 rounded-xl shadow-md shadow-brand-500/30 hover:shadow-lg hover:shadow-brand-500/40 hover:-translate-y-0.5 transition-all duration-300 overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                            <svg class="relative w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                            <span class="relative">Pasang Kos Anda</span>
                         </a>
                     @endauth
                 </div>
@@ -508,8 +509,9 @@
                         Masuk
                     </a>
                     <a href="{{ route('register') }}"
-                       class="block text-center px-4 py-3.5 text-sm font-bold text-white bg-gradient-to-r from-slate-800 to-slate-900 rounded-xl shadow-md mt-2 transition-all hover:shadow-lg">
-                        Daftar Gratis
+                       class="flex items-center justify-center gap-2 text-center px-4 py-3.5 text-sm font-bold text-white bg-gradient-to-r from-brand-500 to-brand-600 rounded-xl shadow-md shadow-brand-500/20 mt-2 transition-all hover:shadow-lg hover:shadow-brand-500/30">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                        Pasang Kos Anda
                     </a>
                 @endauth
             </div>
@@ -800,5 +802,125 @@
     </style>
 
     @stack('scripts')
+
+    {{-- ═══════════════════════════════════════════ --}}
+    {{--  MOBILE BOTTOM NAVIGATION BAR               --}}
+    {{-- ═══════════════════════════════════════════ --}}
+    <nav class="md:hidden fixed bottom-0 inset-x-0 z-50 bg-white/95 backdrop-blur-xl border-t border-slate-200 shadow-[0_-4px_20px_-4px_rgba(0,0,0,0.08)]">
+        <div class="flex items-center justify-around px-2 py-2 max-w-sm mx-auto">
+
+            {{-- Beranda --}}
+            <a href="{{ route('home') }}"
+               class="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl transition-all group
+                      {{ request()->routeIs('home') ? 'text-brand-600' : 'text-slate-400 hover:text-slate-700' }}">
+                <div class="w-6 h-6 flex items-center justify-center">
+                    <svg class="w-5 h-5" fill="{{ request()->routeIs('home') ? 'currentColor' : 'none' }}" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                    </svg>
+                </div>
+                <span class="text-[10px] font-bold">Beranda</span>
+                @if(request()->routeIs('home'))
+                    <span class="w-1 h-1 rounded-full bg-brand-500"></span>
+                @endif
+            </a>
+
+            {{-- Cari --}}
+            <a href="{{ route('kos.index') }}"
+               class="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl transition-all group
+                      {{ request()->routeIs('kos.index') ? 'text-brand-600' : 'text-slate-400 hover:text-slate-700' }}">
+                <div class="w-6 h-6 flex items-center justify-center">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="{{ request()->routeIs('kos.index') ? '2.5' : '2' }}" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </div>
+                <span class="text-[10px] font-bold">Cari</span>
+                @if(request()->routeIs('kos.index'))
+                    <span class="w-1 h-1 rounded-full bg-brand-500"></span>
+                @endif
+            </a>
+
+            {{-- CTA Pasang Kos (tengah, menonjol) --}}
+            @auth
+                @if(auth()->user()->isPemilik() || auth()->user()->isAdmin())
+                <a href="{{ route('kos.create') }}"
+                   class="flex flex-col items-center gap-0.5 -mt-5">
+                    <div class="w-14 h-14 bg-gradient-to-br from-brand-500 to-brand-600 rounded-2xl flex items-center justify-center shadow-lg shadow-brand-500/40 active:scale-95 transition-transform">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                    </div>
+                    <span class="text-[10px] font-bold text-brand-600 mt-0.5">Pasang</span>
+                </a>
+                @else
+                <a href="{{ route('kos.index') }}"
+                   class="flex flex-col items-center gap-0.5 -mt-5">
+                    <div class="w-14 h-14 bg-gradient-to-br from-brand-500 to-brand-600 rounded-2xl flex items-center justify-center shadow-lg shadow-brand-500/40 active:scale-95 transition-transform">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    </div>
+                    <span class="text-[10px] font-bold text-brand-600 mt-0.5">Jelajahi</span>
+                </a>
+                @endif
+            @else
+                <a href="{{ route('register') }}"
+                   class="flex flex-col items-center gap-0.5 -mt-5">
+                    <div class="w-14 h-14 bg-gradient-to-br from-brand-500 to-brand-600 rounded-2xl flex items-center justify-center shadow-lg shadow-brand-500/40 active:scale-95 transition-transform">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                    </div>
+                    <span class="text-[10px] font-bold text-brand-600 mt-0.5">Pasang</span>
+                </a>
+            @endauth
+
+            {{-- Favorit --}}
+            @auth
+            <a href="{{ route('favorites.index') }}"
+               class="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl transition-all
+                      {{ request()->routeIs('favorites.*') ? 'text-rose-500' : 'text-slate-400 hover:text-slate-700' }}">
+                <div class="w-6 h-6 flex items-center justify-center">
+                    <svg class="w-5 h-5" fill="{{ request()->routeIs('favorites.*') ? 'currentColor' : 'none' }}" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                    </svg>
+                </div>
+                <span class="text-[10px] font-bold">Favorit</span>
+                @if(request()->routeIs('favorites.*'))
+                    <span class="w-1 h-1 rounded-full bg-rose-500"></span>
+                @endif
+            </a>
+            @else
+            <a href="{{ route('login') }}"
+               class="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl transition-all text-slate-400 hover:text-slate-700">
+                <div class="w-6 h-6 flex items-center justify-center">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                </div>
+                <span class="text-[10px] font-bold">Favorit</span>
+            </a>
+            @endauth
+
+            {{-- Profil --}}
+            @auth
+            <a href="{{ route('profile.show') }}"
+               class="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl transition-all
+                      {{ request()->routeIs('profile.*') ? 'text-brand-600' : 'text-slate-400 hover:text-slate-700' }}">
+                <div class="w-6 h-6 flex items-center justify-center">
+                    <img src="{{ auth()->user()->foto_profil_url ?? 'https://ui-avatars.com/api/?name='.urlencode(auth()->user()->name).'&background=ccfbf1&color=0f766e&bold=true' }}"
+                         class="w-6 h-6 rounded-full object-cover border-2 {{ request()->routeIs('profile.*') ? 'border-brand-500' : 'border-slate-300' }} transition-colors">
+                </div>
+                <span class="text-[10px] font-bold">Profil</span>
+                @if(request()->routeIs('profile.*'))
+                    <span class="w-1 h-1 rounded-full bg-brand-500"></span>
+                @endif
+            </a>
+            @else
+            <a href="{{ route('login') }}"
+               class="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl transition-all text-slate-400 hover:text-slate-700">
+                <div class="w-6 h-6 flex items-center justify-center">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                </div>
+                <span class="text-[10px] font-bold">Masuk</span>
+            </a>
+            @endauth
+        </div>
+    </nav>
+
+    {{-- Bottom padding spacer for mobile to prevent content hiding behind bottom nav --}}
+    <div class="h-20 md:hidden"></div>
+
 </body>
 </html>

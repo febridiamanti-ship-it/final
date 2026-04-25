@@ -158,39 +158,15 @@
 
 @section('content')
 
-{{-- ═══════════════════════════════════════════════ --}}
-{{--  STATS MARQUEE BANNER                           --}}
-{{-- ═══════════════════════════════════════════════ --}}
-<section class="relative py-6 bg-gradient-to-r from-brand-500 via-brand-600 to-teal-500 overflow-hidden">
-    <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#ffffff 1.5px, transparent 1.5px); background-size: 24px 24px;"></div>
-    <div class="flex overflow-hidden">
-        <div class="animate-marquee flex shrink-0 items-center gap-12 px-6">
-            @foreach([
-                ['5+', 'Kos Terdaftar'],
-                ['25+', 'Pengguna Aktif'],
-                ['4.9★', 'Rating Rata-rata'],
-                ['100%', 'Gratis Tanpa Biaya'],
-                ['24/7', 'Dukungan Online'],
-                ['5+', 'Kos Terdaftar'],
-                ['25+', 'Pengguna Aktif'],
-                ['4.9★', 'Rating Rata-rata'],
-                ['100%', 'Gratis Tanpa Biaya'],
-                ['24/7', 'Dukungan Online'],
-            ] as [$num, $label])
-                <div class="flex items-center gap-3 text-white whitespace-nowrap">
-                    <span class="text-2xl font-extrabold">{{ $num }}</span>
-                    <span class="text-brand-100 text-sm font-medium">{{ $label }}</span>
-                </div>
-                <div class="w-1.5 h-1.5 rounded-full bg-white/30 shrink-0"></div>
-            @endforeach
-        </div>
-    </div>
-</section>
+
 
 {{-- ═══════════════════════════════════════════════ --}}
 {{--  HERO SECTION – Organic, Alive, Immersive       --}}
 {{-- ═══════════════════════════════════════════════ --}}
-<section class="relative min-h-[95vh] flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-8 overflow-hidden noise" id="hero">
+<section class="relative min-h-[calc(100vh-5rem)] flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-8 pb-32 pt-16 overflow-hidden noise bg-cover bg-center" style="background-image: url('{{ asset('images/hero-bg.png') }}');" id="hero">
+
+    {{-- Image Overlay --}}
+    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-[2px] pointer-events-none"></div>
 
     {{-- Animated Organic Background Blobs --}}
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
@@ -227,48 +203,48 @@
 
         {{-- Hero Headline --}}
         <div class="animate-fade-up opacity-0" style="animation-delay: 0.25s;">
-            <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-slate-900 tracking-tight mb-8 leading-[1.05]">
+            <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-white tracking-tight mb-8 leading-[1.05] drop-shadow-lg">
                 <span class="block">Cari kost?</span>
-                <span class="block mt-2 text-gradient-animate">bakos solusinya</span>
+                <span class="block mt-2 text-gradient-animate drop-shadow-none">bakos solusinya</span>
             </h1>
         </div>
 
         {{-- Subtitle --}}
         <div class="animate-fade-up opacity-0" style="animation-delay: 0.4s;">
-            <p class="text-lg md:text-xl text-slate-500 mb-14 max-w-2xl mx-auto leading-relaxed font-medium">
+            <p class="text-lg md:text-xl text-slate-200 mb-14 max-w-2xl mx-auto leading-relaxed font-medium drop-shadow-md">
                 Temukan kos terbaik di area Pandu dan sekitarnya. 
-                <span class="text-slate-700">Harga transparan</span>, fasilitas lengkap, dan 
-                <span class="text-slate-700">langsung terhubung</span> dengan pemilik.
+                <span class="text-white font-bold">Harga transparan</span>, fasilitas lengkap, dan 
+                <span class="text-white font-bold">langsung terhubung</span> dengan pemilik.
             </p>
         </div>
 
         {{-- ── Search Bar – Glassmorphism + Soft Volume ── --}}
         <div class="animate-fade-up opacity-0" style="animation-delay: 0.55s;">
             <form action="{{ route('kos.index') }}" method="GET" class="max-w-3xl mx-auto">
-                <div class="glass rounded-[2rem] p-2.5 border border-white/50 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.12),0_0_0_1px_rgba(255,255,255,0.5)_inset] transition-all duration-500 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.18)] hover:-translate-y-1 focus-within:ring-4 focus-within:ring-brand-400/20 focus-within:border-brand-300/50 group">
+                <div class="glass-dark rounded-[2rem] p-2.5 border border-white/20 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3),0_0_0_1px_rgba(255,255,255,0.1)_inset] transition-all duration-500 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.4)] hover:-translate-y-1 focus-within:ring-4 focus-within:ring-brand-400/30 focus-within:border-brand-300/50 group">
                     <div class="flex flex-col sm:flex-row items-center gap-1">
 
                         {{-- Search Input --}}
-                        <div class="flex-1 flex items-center gap-3 px-5 py-3.5 w-full rounded-xl group-focus-within:bg-white/30 transition-colors">
-                            <div class="shrink-0 w-10 h-10 rounded-xl bg-slate-100/80 flex items-center justify-center group-focus-within:bg-brand-50 group-focus-within:text-brand-500 transition-colors">
-                                <svg class="w-5 h-5 text-slate-400 group-focus-within:text-brand-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                        <div class="flex-1 flex items-center gap-3 px-5 py-3.5 w-full rounded-xl group-focus-within:bg-white/10 transition-colors">
+                            <div class="shrink-0 w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center group-focus-within:bg-brand-500/20 group-focus-within:text-brand-300 transition-colors">
+                                <svg class="w-5 h-5 text-slate-300 group-focus-within:text-brand-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                             </div>
-                            <input type="text" name="q" placeholder="Cari fasilitas atau nama kos di Pandu..." class="w-full text-slate-900 placeholder-slate-400 text-base font-medium focus:outline-none bg-transparent">
+                            <input type="text" name="q" placeholder="Cari fasilitas atau nama kos di Pandu..." class="w-full text-white placeholder-slate-300 text-base font-medium focus:outline-none bg-transparent">
                         </div>
 
                         {{-- Divider --}}
-                        <div class="hidden sm:block w-px h-8 bg-slate-200/60 shrink-0"></div>
+                        <div class="hidden sm:block w-px h-8 bg-white/20 shrink-0"></div>
 
                         {{-- Type Select --}}
                         <div class="w-full sm:w-auto px-4 py-3">
                             <div class="relative">
-                                <select name="jenis" class="w-full sm:w-36 text-slate-600 font-medium focus:outline-none bg-transparent cursor-pointer appearance-none pr-8 text-sm">
-                                    <option value="">Semua Tipe</option>
-                                    <option value="putra">🙋‍♂️ Kos Putra</option>
-                                    <option value="putri">🙋‍♀️ Kos Putri</option>
-                                    <option value="campur">👥 Kos Campur</option>
+                                <select name="jenis" class="w-full sm:w-36 text-white font-medium focus:outline-none bg-transparent cursor-pointer appearance-none pr-8 text-sm">
+                                    <option value="" class="text-slate-800">Semua Tipe</option>
+                                    <option value="putra" class="text-slate-800">🙋‍♂️ Kos Putra</option>
+                                    <option value="putri" class="text-slate-800">🙋‍♀️ Kos Putri</option>
+                                    <option value="campur" class="text-slate-800">👥 Kos Campur</option>
                                 </select>
-                                <svg class="absolute right-1 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                <svg class="absolute right-1 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                             </div>
                         </div>
 
@@ -288,9 +264,9 @@
         {{-- Quick Tags --}}
         <div class="animate-fade-up opacity-0 mt-8" style="animation-delay: 0.7s;">
             <div class="flex flex-wrap items-center justify-center gap-2 text-xs">
-                <span class="text-slate-400 font-medium">Populer:</span>
+                <span class="text-slate-300 font-medium drop-shadow-sm">Populer:</span>
                 @foreach(['Kos Murah Pandu', 'Kos Putri AC', 'Dekat Jalan Utama Pandu', 'WiFi Gratis'] as $tag)
-                    <a href="{{ route('kos.index', ['q' => $tag]) }}" class="px-3.5 py-1.5 rounded-full bg-white/60 border border-slate-200/50 text-slate-500 font-medium hover:bg-brand-50 hover:border-brand-200 hover:text-brand-600 transition-all duration-200 hover:-translate-y-0.5 shadow-sm hover:shadow-md">
+                    <a href="{{ route('kos.index', ['q' => $tag]) }}" class="px-3.5 py-1.5 rounded-full glass-dark border border-white/20 text-slate-200 font-medium hover:bg-brand-500 hover:border-brand-400 hover:text-white transition-all duration-200 hover:-translate-y-0.5 shadow-sm hover:shadow-md">
                         {{ $tag }}
                     </a>
                 @endforeach
@@ -299,25 +275,25 @@
 
         {{-- Trust Indicators --}}
         <div class="animate-fade-up opacity-0 mt-14" style="animation-delay: 0.85s;">
-            <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-slate-400">
+            <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-slate-300 drop-shadow-sm">
                 <div class="flex items-center gap-2">
                     <div class="flex -space-x-2">
                         @for($i = 0; $i < 4; $i++)
-                            <div class="w-7 h-7 rounded-full bg-gradient-to-br from-slate-200 to-slate-300 border-2 border-white ring-1 ring-slate-100 flex items-center justify-center text-[10px] font-bold text-slate-500">
+                            <div class="w-7 h-7 rounded-full bg-gradient-to-br from-slate-700 to-slate-800 border-2 border-slate-900 ring-1 ring-slate-800 flex items-center justify-center text-[10px] font-bold text-slate-200">
                                 {{ ['A','B','C','D'][$i] }}
                             </div>
                         @endfor
                     </div>
-                    <span class="font-medium text-slate-500">25+ pengguna aktif</span>
+                    <span class="font-medium text-slate-200">25+ pengguna aktif</span>
                 </div>
-                <div class="hidden sm:block w-px h-4 bg-slate-200"></div>
+                <div class="hidden sm:block w-px h-4 bg-white/20"></div>
                 <div class="flex items-center gap-1.5">
                     <div class="flex gap-0.5">
                         @for($i = 0; $i < 5; $i++)
-                            <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            <svg class="w-4 h-4 text-amber-400 drop-shadow-sm" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                         @endfor
                     </div>
-                    <span class="font-medium text-slate-500">Rating 4.9/5</span>
+                    <span class="font-medium text-slate-200">Rating 4.9/5</span>
                 </div>
             </div>
         </div>
@@ -328,6 +304,35 @@
         <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full">
             <path d="M0 50L48 45C96 40 192 30 288 33C384 36 480 52 576 58C672 64 768 60 864 52C960 44 1056 32 1152 30C1248 28 1344 36 1392 40L1440 44V100H1392C1344 100 1248 100 1152 100C1056 100 960 100 864 100C768 100 672 100 576 100C480 100 384 100 288 100C192 100 96 100 48 100H0V50Z" fill="white"/>
         </svg>
+    </div>
+</section>
+
+{{-- ═══════════════════════════════════════════════ --}}
+{{--  STATS MARQUEE BANNER                           --}}
+{{-- ═══════════════════════════════════════════════ --}}
+<section class="relative py-6 bg-gradient-to-r from-brand-500 via-brand-600 to-teal-500 overflow-hidden">
+    <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#ffffff 1.5px, transparent 1.5px); background-size: 24px 24px;"></div>
+    <div class="flex overflow-hidden">
+        <div class="animate-marquee flex shrink-0 items-center gap-12 px-6">
+            @foreach([
+                ['5+', 'Kos Terdaftar'],
+                ['25+', 'Pengguna Aktif'],
+                ['4.9★', 'Rating Rata-rata'],
+                ['100%', 'Gratis Tanpa Biaya'],
+                ['24/7', 'Dukungan Online'],
+                ['5+', 'Kos Terdaftar'],
+                ['25+', 'Pengguna Aktif'],
+                ['4.9★', 'Rating Rata-rata'],
+                ['100%', 'Gratis Tanpa Biaya'],
+                ['24/7', 'Dukungan Online'],
+            ] as [$num, $label])
+                <div class="flex items-center gap-3 text-white whitespace-nowrap">
+                    <span class="text-2xl font-extrabold">{{ $num }}</span>
+                    <span class="text-brand-100 text-sm font-medium">{{ $label }}</span>
+                </div>
+                <div class="w-1.5 h-1.5 rounded-full bg-white/30 shrink-0"></div>
+            @endforeach
+        </div>
     </div>
 </section>
 
