@@ -10,6 +10,16 @@ use App\Http\Controllers\Pemilik\DashboardController as PemilikDashboard;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 
 // ─── Public ───
+Route::get('/rahasia-migrate-railway', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate:fresh', ['--seed' => true, '--force' => true]);
+        \Illuminate\Support\Facades\Artisan::call('storage:link');
+        return 'Migrasi, Seeding, dan Storage Link berhasil dijalankan dari server Railway! Segera beri tahu saya agar rute ini bisa saya hapus demi keamanan.';
+    } catch (\Exception $e) {
+        return 'Error: ' . $e->getMessage();
+    }
+});
+
 Route::get('/', [KosController::class, 'home'])->name('home');
 Route::get('/api/kos', [KosController::class, 'apiIndex'])->name('api.kos');
 
