@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kos;
+use App\Models\Review;
 use App\Models\KosTipeKamar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -16,9 +17,8 @@ class KosController extends Controller
         $kotaPopuler = Kos::available()->selectRaw('kota, COUNT(*) as total')
             ->groupBy('kota')->orderByDesc('total')->limit(6)->get();
             
-        // --- TAMBAHKAN BARIS INI ---
-        // Ambil 3 ulasan terbaru yang memiliki rating 4 atau 5, beserta data user-nya
-        $latestReviews = \App\Models\Review::with('user')
+      
+        $latestReviews = Review::with('user')
             ->where('rating', '>=', 4)
             ->whereNotNull('komentar')
             ->latest()
