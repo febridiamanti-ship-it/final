@@ -74,6 +74,6 @@ class Kos extends Model
 
     public function reviews()
     {
-        return $this->hasMany(Review::class)->latest(); // Tampilkan yang terbaru dulu
+        return $this->hasMany(Review::class)->latest();
     }
 }
