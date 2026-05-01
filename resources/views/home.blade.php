@@ -204,17 +204,17 @@
         {{-- Hero Headline --}}
         <div class="animate-fade-up opacity-0" style="animation-delay: 0.25s;">
             <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-white tracking-tight mb-8 leading-[1.05] drop-shadow-lg">
-                <span class="block">Cari kost?</span>
-                <span class="block mt-2 text-gradient-animate drop-shadow-none">bakos solusinya</span>
+                <span class="block">Era Baru Pencarian Kos</span>
+                <span class="block mt-2 text-gradient-animate drop-shadow-none">BaKos Hadirkan Transparansi</span>
             </h1>
         </div>
 
         {{-- Subtitle --}}
         <div class="animate-fade-up opacity-0" style="animation-delay: 0.4s;">
             <p class="text-lg md:text-xl text-slate-200 mb-14 max-w-2xl mx-auto leading-relaxed font-medium drop-shadow-md">
-                Temukan kos terbaik di area Pandu dan sekitarnya. 
-                <span class="text-white font-bold">Harga transparan</span>, fasilitas lengkap, dan 
-                <span class="text-white font-bold">langsung terhubung</span> dengan pemilik.
+                 
+                <span class="text-white font-bold">Tinggalkan cara lama mencari kos.Di BaKos, kamu bisa membandingkan fasilitas,  
+                <span class="text-white font-bold"></span>melihat harga asli, dan bernegosiasi langsung dengan pemilik dari layar perangkat anda.
             </p>
         </div>
 
